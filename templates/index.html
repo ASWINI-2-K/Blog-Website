@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightFlow | Modern Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            padding: 100px 0;
+            text-align: center;
+            border-radius: 0 0 50px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-create {
+            background: white;
+            color: #6366f1;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-create:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            color: #8b5cf6;
+        }
+        
+        /* Stats Section */
+        .stats {
+            margin-top: -40px;
+            margin-bottom: 60px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #6366f1;
+        }
+        
+        /* Blog Cards */
+        .blog-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            transition: all 0.4s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+        }
+        
+        .card-badge {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+        
+        .card-excerpt {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .card-date {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn-edit {
+            background: #fef3c7;
+            color: #d97706;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-edit:hover {
+            background: #fde68a;
+            color: #b45309;
+        }
+        
+        .btn-delete {
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-delete:hover {
+            background: #fecaca;
+            color: #b91c1c;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 24px;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 50px 0;
+            margin-top: 60px;
+            text-align: center;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .blog-card {
+            animation: fadeInUp 0.6s ease backwards;
+        }
+        
+        .blog-card:nth-child(1) { animation-delay: 0.1s; }
+        .blog-card:nth-child(2) { animation-delay: 0.2s; }
+        .blog-card:nth-child(3) { animation-delay: 0.3s; }
+        
+        /* Alert */
+        .alert-custom {
+            border-radius: 16px;
+            border: none;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-feather-alt"></i> InsightFlow
+            </a>
+            <a href="/new" class="btn-create" style="background: #6366f1; color: white; padding: 8px 20px;">
+                <i class="fas fa-plus"></i> Write Story
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero text-white">
+        <div class="container">
+            <h1><i class="fas fa-quote-left"></i> Stories that inspire</h1>
+            <p>Join a community of thinkers, writers, and storytellers</p>
+            <a href="/new" class="btn-create">
+                <i class="fas fa-pen-fancy"></i> Start Writing
+            </a>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="container stats">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                    <i class="fas fa-book-open" style="font-size: 2rem; color: #6366f1;"></i>
+                    <div class="stat-number">{{ posts|length }}</div>
+                    <div>Stories Published</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                    <i class="fas fa-users" style="font-size: 2rem; color: #8b5cf6;"></i>
+                    <div class="stat-number">100+</div>
+                    <div>Readers</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                    <i class="fas fa-heart" style="font-size: 2rem; color: #ec4899;"></i>
+                    <div class="stat-number">50+</div>
+                    <div>Likes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-custom alert-{{ 'success' if category == 'success' else 'danger' }} fade show" role="alert" style="background: #dcfce7; color: #166534; border-left: 4px solid #22c55e;">
+                        <i class="fas fa-check-circle"></i> {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Blog Posts -->
+        {% if posts %}
+            {% for post in posts %}
+            <div class="blog-card" onclick="window.location='/edit/{{ post.id }}'">
+                <div class="card-body p-4">
+                    <span class="card-badge">
+                        <i class="fas fa-calendar-alt"></i> {{ post.date_created.strftime('%B %d, %Y') }}
+                    </span>
+                    <h3 class="card-title">{{ post.title }}</h3>
+                    <p class="card-excerpt">
+                        {{ post.content[:180] }}{% if post.content|length > 180 %}...{% endif %}
+                    </p>
+                    <div class="card-meta">
+                        <span class="card-date">
+                            <i class="fas fa-clock"></i> {{ post.date_created.strftime('%I:%M %p') }}
+                        </span>
+                        <div class="card-actions" onclick="event.stopPropagation()">
+                            <a href="/edit/{{ post.id }}" class="btn-edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="/delete/{{ post.id }}" class="btn-delete" onclick="return confirm('Delete this story?')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-book-open"></i>
+                <h3>No stories yet</h3>
+                <p class="text-muted">Be the first to share your thoughts</p>
+                <a href="/new" class="btn-create" style="background: #6366f1; color: white; display: inline-block; margin-top: 20px;">
+                    <i class="fas fa-plus"></i> Write Your First Story
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p><i class="fas fa-feather-alt"></i> InsightFlow — Where words come alive</p>
+            <p style="font-size: 0.85rem; margin-top: 10px;">© 2024 InsightFlow. Crafted with passion.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Auto-hide alerts after 3 seconds
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 300);
+                }, 3000);
+            });
+        }, 100);
+    </script>
+</body>
+</html>
